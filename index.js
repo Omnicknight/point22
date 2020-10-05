@@ -5,37 +5,31 @@ const hostname = "localhost";
 const port = 3000;
 
 const server = http.createServer((request, response) => {
-  switch (request.url) {
-    case "/add":
-      const messages = read("messages");
+    switch (request.url) {
+        case "/add":
+            const messages = read("messages");
 
-      const newData = [
-        ...messages,
-        {
-          id: messages[messages.length - 1].id + 1,
-          name: "No-name",
-        },
-      ];
+            const newData = [
+                ...messages,
+                {
+                    id: messages[messages.length - 1].id + 1,
+                    name: "No-name",
+                },
+            ];
 
-      write("messages", newData);
-      break;
+            write("messages", newData);
+            break;
 
-    case "/delete":
-      messages = read(messages);
+        case "/delete":
+            const msg = read('messages');;
 
-       newData = [
-          ...messages,
-      ];
+            write("messages", msg.slice(0, msg.length - 1));
+            break;
+    }
 
-      newData.pop();
-
-      write("messages", newData);
-      break;
-  }
-
-  response.end(JSON.stringify(read("messages")));
+    response.end(JSON.stringify(read("messages")));
 });
 
 server.listen(port, hostname, () => {
-  console.log(`Server is listening ${hostname}:${port}`);
+    console.log(`Server is listening ${hostname}:${port}`);
 });
